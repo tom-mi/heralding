@@ -1,11 +1,12 @@
 # will request and log the public ip every hours from ipify
 public_ip_as_destination_ip: false
 
-# logging of credentials
+# logging of sessions and authentication attempts 
 activity_logging:
   file:
     enabled: true
-    filename: "log_auth_attempt.log"
+    session_log_file: "log_session.csv"
+    authentication_log_file: "log_auth.csv"
 
   syslog:
     enabled: false

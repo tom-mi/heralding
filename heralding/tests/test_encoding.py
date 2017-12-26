@@ -44,5 +44,5 @@ class EncodingTests(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        cls.flogger.fileHandler.close()
+        cls.flogger.auth_log_filehandler.close()
         os.remove("test_csv.log")

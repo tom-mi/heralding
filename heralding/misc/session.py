@@ -73,7 +73,8 @@ class Session:
         if 'password' in kwargs:
             entry['password'] = kwargs['password']
 
-        ReportingRelay.queueLogData(entry)
+        message_type = {}
+        ReportingRelay.logAuthAttempt(entry)
         self.activity()
         logger.debug('{0} authentication attempt from {1}:{2}. Auth mechanism: {3}. '
                      'Credentials: {4}'.format(self.protocol, self.source_ip,

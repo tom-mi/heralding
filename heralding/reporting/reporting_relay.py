@@ -24,12 +24,12 @@ logger = logging.getLogger(__name__)
 
 
 class ReportingRelay:
-    _incommingLogQueue = None
+    _authAttemptQueue = None
 
     def __init__(self):
         # we are singleton
-        assert ReportingRelay._incommingLogQueue is None
-        ReportingRelay._incommingLogQueue = queue.Queue(maxsize=10000)
+        assert ReportingRelay._authAttemptQueue is None
+        ReportingRelay._authAttemptQueue = queue.Queue(maxsize=10000)
 
         self.enabled = True
 
@@ -37,14 +37,14 @@ class ReportingRelay:
         self.internalReportingPublisher = context.socket(zmq.PUB)
 
     @staticmethod
-    def queueLogData(data):
-        assert ReportingRelay._incommingLogQueue is not None
-        ReportingRelay._incommingLogQueue.put(data)
+    def logAuthAttempt(data):
+        assert ReportingRelay._authAttemptQueue is not None
+        ReportingRelay._authAttemptQueue.put(data)
 
     @staticmethod
     def getQueueSize():
-        if ReportingRelay._incommingLogQueue is not None:
-            return ReportingRelay._incommingLogQueue.qsize()
+        if ReportingRelay._authAttemptQueue is not None:
+            return ReportingRelay._authAttemptQueue.qsize()
         else:
             return 0
 
@@ -53,7 +53,7 @@ class ReportingRelay:
 
         while self.enabled or ReportingRelay.getQueueSize() > 0:
             try:
-                data = ReportingRelay._incommingLogQueue.get(timeout=0.5)
+                data = ReportingRelay._authAttemptQueue.get(timeout=0.5)
                 self.internalReportingPublisher.send_pyobj(data)
             except queue.Empty:
                 pass
@@ -63,7 +63,7 @@ class ReportingRelay:
         self.internalReportingPublisher.close()
 
         # None is also used to signal we are all done
-        ReportingRelay._incommingLogQueue = None
+        ReportingRelay._authAttemptQueue = None
 
     def stop(self):
         self.enabled = False

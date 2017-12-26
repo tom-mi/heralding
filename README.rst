@@ -41,11 +41,10 @@ Viewing the collected data
 
 Heralding logs relevant data in two files, log_session.csv and log_auth.csv.
 
-*log_session.csv*
+**log_session.csv**
 
 This log file contains log entries for all connections to the honeypot. The data includes timestamp, duration, IP information and the number of authentication attempts. Be aware that the log entry for an specific session will appear in the log fil **after** the session has ended. 
 
-.. code-block:: shell
    $ tail log_session.csv
    timestamp,duration,session_id,source_ip,source_port,destination_ip,destination_port,protocol,auth_attempts
    2017-12-26 20:38:19.683713,16,0841e3aa-241b-4da0-b85e-e5a5524cc836,127.0.0.1,53161,,23,telnet,3
@@ -54,7 +53,7 @@ This log file contains log entries for all connections to the honeypot. The data
    2017-12-26 22:18:06.284689,0,6c7d653f-d02d-4717-9973-d9b2e4a41d24,127.0.0.1,55153,,22,ssh,0
    2017-12-26 22:18:13.043327,30,f3af2c8c-b63f-4873-ac7f-28c73b9e3e92,127.0.0.1,55155,,22,ssh,3
 
-*log_auth.csv*
+**log_auth.csv**
 
 This log file contains information for all authentication attempts where it was possible to log a username and plaintext password. Log entries will appear in this file as soon as the password has been transmitted.
 

@@ -84,15 +84,15 @@ class Session:
             self.connected = False
 
             entry = {'timestamp': self.timestamp,
-                    'duration': (int) ((datetime.utcnow() - self.timestamp).total_seconds()),
-                    'session_id': self.id,
-                    'source_ip': self.source_ip,
-                    'source_port': self.source_port,
-                    'destination_ip': heralding.honeypot.Honeypot.public_ip,
-                    'destination_port': self.destination_port,
-                    'protocol': self.protocol,
-                    'auth_attempts': self.get_number_of_login_attempts()
-                    }
-                    
+                     'duration': (int)((datetime.utcnow() - self.timestamp).total_seconds()),
+                     'session_id': self.id,
+                     'source_ip': self.source_ip,
+                     'source_port': self.source_port,
+                     'destination_ip': heralding.honeypot.Honeypot.public_ip,
+                     'destination_port': self.destination_port,
+                     'protocol': self.protocol,
+                     'auth_attempts': self.get_number_of_login_attempts()
+                     }
+
             ReportingRelay.logSessionEnded(entry)
             logger.debug('Session with session id {0} ended'.format(self.id))

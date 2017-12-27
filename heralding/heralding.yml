@@ -21,6 +21,11 @@ activity_logging:
     ident:
     secret:
 
+  telegram:
+    enabled: false
+    token:
+    chat_id:
+
 
 # protocols to enable
 capabilities:

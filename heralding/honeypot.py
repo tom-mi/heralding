@@ -25,6 +25,7 @@ import heralding.capabilities.handlerbase
 from heralding.reporting.file_logger import FileLogger
 from heralding.reporting.syslog_logger import SyslogLogger
 from heralding.reporting.hpfeeds_logger import HpFeedsLogger
+from heralding.reporting.telegram_logger import TelegramLogger
 
 import asyncssh
 
@@ -87,6 +88,14 @@ class Honeypot:
                 hpfeeds_logger = HpFeedsLogger(channel, host, port, ident, secret)
                 self.hpfeeds_logger_task = self.loop.run_in_executor(None, hpfeeds_logger.start)
                 self.hpfeeds_logger_task.add_done_callback(common.on_unhandled_task_exception)
+
+            if 'telegram' in self.config['activity_logging'] and self.config['activity_logging']['telegram']['enabled']:
+                token = self.config['activity_logging']['telegram']['token']
+                chat_id = self.config['activity_logging']['telegram']['chat_id']
+                telegram_logger = TelegramLogger(token, chat_id)
+                self.telegram_logger_task = self.loop.run_in_executor(None, telegram_logger.start)
+                self.telegram_logger_task.add_done_callback(common.on_unhandled_task_exception)
+                self._loggers.append(telegram_logger)
 
 
         bind_host = self.config['bind_host']

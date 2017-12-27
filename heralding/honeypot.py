@@ -92,7 +92,7 @@ class Honeypot:
             if 'telegram' in self.config['activity_logging'] and self.config['activity_logging']['telegram']['enabled']:
                 token = self.config['activity_logging']['telegram']['token']
                 chat_id = self.config['activity_logging']['telegram']['chat_id']
-                telegram_logger = TelegramLogger(token, chat_id)
+                telegram_logger = TelegramLogger(self.loop, token, chat_id)
                 self.telegram_logger_task = self.loop.run_in_executor(None, telegram_logger.start)
                 self.telegram_logger_task.add_done_callback(common.on_unhandled_task_exception)
                 self._loggers.append(telegram_logger)
